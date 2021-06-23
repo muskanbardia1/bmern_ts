@@ -132,8 +132,8 @@ const UserList: React.FC<IUserListDashBoard> = ({
 	error,
 	logout,
 	clearErrors,
-  users,
-  history
+	users,
+	history,
 }) => {
 	const classes = useStyles();
 	const [searched, setSearched] = React.useState("");
@@ -215,7 +215,7 @@ const UserList: React.FC<IUserListDashBoard> = ({
 						Dashboard
 					</Typography>
 					<Tooltip title="Sign out" aria-label="add">
-            <Link to="/login">
+						<Link to="/login">
 							<IconButton color="inherit" onClick={logout}>
 								<Badge color="secondary">
 									<ExitToAppIcon style={{ color: "white" }} />
@@ -253,67 +253,68 @@ const UserList: React.FC<IUserListDashBoard> = ({
 						</Grid>
 						{/* Recent Orders */}
 						<Grid item xs={12}>
-							 (
-								<Paper className={classes.paper}>
-									<SearchBar
-										value={searched}
-										onChange={(searchVal) => requestSearch(searchVal)}
-										onCancelSearch={() => cancelSearch()}
-									/>
-									<React.Fragment>
-										<Table size="small">
-											<TableHead>
-												<TableRow>
-													<TableCell>Profile</TableCell>
-													<TableCell>Name</TableCell>
-													<TableCell>Email</TableCell>
-													<TableCell>Address</TableCell>
-													<TableCell>Phone</TableCell>
-													<TableCell align="right">Action</TableCell>
+							(
+							<Paper className={classes.paper}>
+								<SearchBar
+									value={searched}
+									onChange={(searchVal) => requestSearch(searchVal)}
+									onCancelSearch={() => cancelSearch()}
+								/>
+								<React.Fragment>
+									<Table size="small">
+										<TableHead>
+											<TableRow>
+												<TableCell>Profile</TableCell>
+												<TableCell>Name</TableCell>
+												<TableCell>Email</TableCell>
+												<TableCell>Address</TableCell>
+												<TableCell>Phone</TableCell>
+												<TableCell align="right">Action</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{data.map((user, id) => (
+												<TableRow key={user.email + "_" + id}>
+													<TableCell>
+														{user.image && (
+															<img
+																width="40%"
+																className={classes.media}
+																src={user.image}
+																alt=""
+															/>
+														)}
+													</TableCell>
+													<TableCell>
+														{user?.fname + " " + user?.lname}
+													</TableCell>
+													<TableCell>{user.email}</TableCell>
+													<TableCell>{user.address}</TableCell>
+													<TableCell>{user.phone}</TableCell>
+													<TableCell align="right">
+														<Button
+															variant="contained"
+															onClick={() =>
+																history.push(`/dashboard?_id=${user._id}`)
+															}
+															color="primary">
+															View
+														</Button>
+														<Button
+															variant="contained"
+															onClick={() => user._id && deleteUser(user._id)}
+															color="secondary">
+															Delete
+														</Button>
+													</TableCell>
 												</TableRow>
-											</TableHead>
-											<TableBody>
-												{data.map((user, id) => (
-													<TableRow key={user.email + "_" + id}>
-														<TableCell>
-															{user.image && (
-																<img
-																	width="40%"
-																	className={classes.media}
-																	src={user.image}
-																	alt=""
-																/>
-															)}
-														</TableCell>
-														<TableCell>
-															{user?.fname + " " + user?.lname}
-														</TableCell>
-														<TableCell>{user.email}</TableCell>
-														<TableCell>{user.address}</TableCell>
-														<TableCell>{user.phone}</TableCell>
-														<TableCell align="right">
-															<Button
-																variant="contained"
-																onClick={() => history.push("/userDashboard")}
-																color="primary">
-																View
-															</Button>
-															<Button
-																variant="contained"
-																onClick={() => user.id && deleteUser(user.id)}
-																color="secondary">
-																Delete
-															</Button>
-														</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-										</Table>
-										<div className={classes.seeMore}></div>
-									</React.Fragment>
-								</Paper>
+											))}
+										</TableBody>
+									</Table>
+									<div className={classes.seeMore}></div>
+								</React.Fragment>
+							</Paper>
 							)
-							
 						</Grid>
 					</Grid>
 				</Container>

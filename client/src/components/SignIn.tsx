@@ -39,6 +39,7 @@ const SignIn: React.FC<ILoginModal> = ({
 	login,
 	clearErrors,
 	userType,
+	userId
 }) => {
 	const classes = useStyles();
 	const [data, setData] = useState({
@@ -64,7 +65,7 @@ const SignIn: React.FC<ILoginModal> = ({
 			return <Redirect to="/adminDashboard" />;
 		}
 
-		return <Redirect to="/dashboard" />;
+		return <Redirect to={`/dashboard?_id=${userId}`} />;
 	}
 
 	return (
@@ -129,6 +130,7 @@ const SignIn: React.FC<ILoginModal> = ({
 const mapStateToProps = (state: IRootState) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 	userType: state.auth.user?.userType,
+	userId: state.auth.user?._id,
 	error: state.error,
 });
 export default connect(mapStateToProps, { login, clearErrors })(SignIn);

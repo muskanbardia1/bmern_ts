@@ -25,7 +25,7 @@ export interface IUser {
 
   address?: string;
   phone?: string;
-  id?: string;
+  _id?: string;
   token?: any;
   image?: string
   userType?:UserType.ADMIN | UserType.USER
@@ -42,11 +42,14 @@ export interface IAuthForm {
 
 export interface ILoginModal extends IAuthForm {
   login(user: IUser): void;
+  userId?: string
+
 
 }
 
 export interface IRegisterModal extends IAuthForm {
   register(user: IUser): void;
+  userId?:string
 }
 
 export interface ILogoutProps {
@@ -113,7 +116,7 @@ export interface IUserListDashBoard extends RouteComponentProps{
 
 }
 
-export interface IUserDashboard {
+export interface IUserDashboard extends RouteComponentProps {
   auth: IUserRedux;
   loadUser(): void
   error: IErrorsRedux;
