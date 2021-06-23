@@ -5,7 +5,7 @@ import SignIn from "./components/SignIn";
 import { Router, Route, Switch } from "react-router-dom";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
-import { loadUser } from "./flux/actions/authActions";
+import { getUserById } from "./flux/actions/authActions";
 import {useDispatch} from "react-redux"
 import ProtectedRoute from "./components/privateRoute"
 
@@ -17,7 +17,7 @@ function App() {
   const dispatch=useDispatch()
 
   useEffect(() => {
-    dispatch(loadUser());
+    dispatch(getUserById());
   }, []);
   return (
 		<Router history={history}>

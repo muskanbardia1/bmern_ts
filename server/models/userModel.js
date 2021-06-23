@@ -5,47 +5,48 @@ const bcrypt = require("bcryptjs");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const UserSchema = new mongoose.Schema(
-  {
-    userId: {
-      type: Number,
-      AutoIncrement: true,
-      primaryKey: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-    },
+	{
+		userId: {
+			type: Number,
+			AutoIncrement: true,
+			primaryKey: true,
+		},
+		email: {
+			type: String,
+			unique: true,
+		},
 
-    firstName:String,
+		firstName: String,
 
-    password: {
-      type: String,
-      trim: true,
-    },
+		password: {
+			type: String,
+			trim: true,
+		},
 
-    userImage: String,
+		userImage: String,
 
-    userType: {
-      type: Number,
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
+		userType: {
+			type: String,
+			enum: ["ADMIN", "USER"],
+		},
+		isActive: {
+			type: Boolean,
+			default: true,
+		},
 
-    mobileNumber: {
-      type: String,
-      unique: true,
-    },
+		mobileNumber: {
+			type: String,
+			unique: true,
+		},
 
-    Address: {
-      type: String,
-    },
-    Description: String,
-  },
-  {
-    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-  }
+		Address: {
+			type: String,
+		},
+		Description: String,
+	},
+	{
+		timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+	}
 );
 
 UserSchema.plugin(AutoIncrement, { inc_field: "userId", start_seq: 1000 });

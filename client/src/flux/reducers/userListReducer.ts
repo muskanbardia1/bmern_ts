@@ -27,12 +27,12 @@ const userListReducer = (state: IState = initialState, action: IAction): IState 
     case DELETE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.payload)
+        users: state.users.filter(user => user._id !== action.payload)
       };
     case EDIT_USER:
       return {
         ...state,
-        users: [...state.users.filter(user => user.id !== action.payload.id), action.payload]
+        users: [...state.users.filter(user => user._id !== action.payload.id), action.payload]
       };
     case USERS_LOADING:
       return {

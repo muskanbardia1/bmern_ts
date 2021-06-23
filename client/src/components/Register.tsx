@@ -285,7 +285,7 @@ const SignUp: React.FC<IRegisterModal> = ({
 
 const mapStateToProps = (state: IRootState) => ({
 	isAuthenticated: state.auth.isAuthenticated,
-	userId: state.auth.user?.id,
+	userId: state.auth.user?._id,
 
 	error: state.error,
 });

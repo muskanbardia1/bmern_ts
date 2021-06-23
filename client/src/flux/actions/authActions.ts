@@ -16,7 +16,7 @@ import {
 import { IUser, IConfigHeaders } from '../../types/interfaces';
 
 // Check token & load user
-export const getUserById = (id:string) => (dispatch: Dispatch<IAction>, getState: Function) => {
+export const getUserById = (id?:string) => (dispatch: Dispatch<IAction>, getState: Function) => {
   // User loading
   dispatch({ type: USER_LOADING });
   
@@ -25,7 +25,7 @@ export const getUserById = (id:string) => (dispatch: Dispatch<IAction>, getState
     method: "get",
     url: "/getUser",
     params: {
-      id
+      id:id || ""
     },
     ...tokenConfig(getState)
 
@@ -80,14 +80,14 @@ export const register = ({ fname, email, password,lname,address,phone,image }: I
     });
 };
 
-export const editUser = ({ fname, email, password, lname, address, phone, image, id }: IUser) => (
+export const editUser = ({ fname, email, password, lname, address, phone, image, _id }: IUser) => (
   dispatch: Dispatch<IAction>,getState: Function
 ) => {
   // Headers
   
 
   // Request body
-  const data = JSON.stringify({ fname, email, password, lname, address, phone, image, userId :id});
+  const data = JSON.stringify({ fname, email, password, lname, address, phone, image, userId :_id});
 
   axios({
     method: "post",
