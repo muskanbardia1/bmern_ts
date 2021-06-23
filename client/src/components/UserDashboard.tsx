@@ -457,7 +457,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									}
 								/>
 							</Grid>
-							{!isDisabled && (
+							{/* {!isDisabled  && (
 								<Grid item xs={12}>
 									<TextField
 										variant="outlined"
@@ -476,9 +476,9 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									/>
 									<span id="pass"></span>
 								</Grid>
-							)}
+							)} */}
 
-							{!isDisabled && (
+							{/* {!isDisabled && (
 								<Grid item xs={12}>
 									<TextField
 										variant="outlined"
@@ -494,7 +494,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 										}
 									/>
 								</Grid>
-							)}
+							)} */}
 						</Grid>
 						<Button
 							type="button"

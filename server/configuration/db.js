@@ -17,7 +17,7 @@ const defaultList = {
 	},
 
 
-module.exports= function () {
+module.exports=  () =>{
 	mongoose.connect(dbURL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
