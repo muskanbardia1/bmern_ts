@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axios';
 import {Dispatch} from 'redux';
 
 import {IAction} from "../../types/interfaces"
@@ -16,16 +16,23 @@ import {
 import { IUser, IConfigHeaders } from '../../types/interfaces';
 
 // Check token & load user
-export const loadUser = () => (dispatch: Dispatch<IAction>, getState: Function) => {
+export const getUserById = (id:string) => (dispatch: Dispatch<IAction>, getState: Function) => {
   // User loading
   dispatch({ type: USER_LOADING });
+  
 
-  axios
-    .get('/api/auth/user', tokenConfig(getState))
-    .then(res =>
+  axios({
+    method: "get",
+    url: "/getUser",
+    params: {
+      id
+    },
+    ...tokenConfig(getState)
+
+  }).then(res =>
       dispatch({
         type: USER_LOADED,
-        payload: res.data
+        payload: res
       })
     )
     .catch(err => {
@@ -41,21 +48,26 @@ export const register = ({ fname, email, password,lname,address,phone,image }: I
   dispatch: Dispatch<IAction>
 ) => {
   // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
+  
 
   // Request body
-  const body = JSON.stringify({ fname, email, password,lname,address,phone,image });
+  const data = JSON.stringify({ fname, email, password,lname,address,phone,image });
 
-  axios
-    .post('/api/auth/register', body, config)
+  axios({
+    method: "post",
+    url: "/signup",
+    data,
+    headers: {
+      'Content-type': 'application/json'
+    }
+    // headers: tokenConfig(getState)
+
+  })
+    // .post('/api/auth/register', body, config)
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
+        payload: res
       })
     )
     .catch(err => {
@@ -68,21 +80,27 @@ export const register = ({ fname, email, password,lname,address,phone,image }: I
     });
 };
 
-export const editUser = ({ fname, email, password,lname,address,phone,image }: IUser) => (
+export const editUser = ({ fname, email, password, lname, address, phone, image, id }: IUser) => (
   dispatch: Dispatch<IAction>,getState: Function
 ) => {
   // Headers
   
 
   // Request body
-  const body = JSON.stringify({ fname, email, password,lname,address,phone,image });
+  const data = JSON.stringify({ fname, email, password, lname, address, phone, image, userId :id});
 
-  axios
-    .post('/api/auth/register', body, tokenConfig(getState))
+  axios({
+    method: "post",
+    url: "/editUser",
+    data,
+    ...tokenConfig(getState)
+
+  })
+    // .post('/api/auth/register', body, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
+        payload: res
       })
     )
     .catch(err => {
@@ -100,21 +118,27 @@ export const login = ({ email, password }: IUser) => (
   dispatch: Dispatch<IAction>
 ) => {
   // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
+  
 
   // Request body
-  const body = JSON.stringify({ email, password });
+  const data = JSON.stringify({ email, password });
 
-  axios
-    .post('/api/auth/login', body, config)
+  axios({
+    method: "post",
+    url: "/login",
+    data,
+    headers: {
+      'Content-type': 'application/json'
+    }
+
+    // headers: tokenConfig(getState)
+
+  })
+    // .post('/api/auth/login', body, config)
     .then(res =>
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: res
       })
     )
     .catch(err => {

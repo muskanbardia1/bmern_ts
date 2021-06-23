@@ -1,67 +1,87 @@
-import axios from 'axios';
-import { GET_USERS, EDIT_USER, DELETE_USER, USERS_LOADING } from './types';
+import axios from './axios';
+import { GET_USERS, DELETE_USER, USERS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
-import { IUser, IAction } from '../../types/interfaces';
+import {  IAction } from '../../types/interfaces';
 import { Dispatch } from 'redux';
 
 
-export const getUsers = () => (dispatch: Dispatch<IAction>) => {
+export const getUsers = () => (dispatch: Dispatch<IAction>, getState: Function) => {
   dispatch(setItemsLoading());
-  axios
-    .get('/api/items')
+  axios({
+    method: "get",
+    url: "/getUserList",
+    ...tokenConfig(getState)
+
+  })
+    // .get('/api/items')
     .then(res =>
       dispatch({
         type: GET_USERS,
-        payload: res.data
+        payload: res
       })
     )
     .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
+      dispatch(returnErrors(err.data, err.status))
     );
 };
 
-export const editUsers = (user: IUser) => (
-  dispatch: Dispatch<IAction>,
-  getState: Function
-) => {
-  axios
-    .post('/api/user', user, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: EDIT_USER,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
+// export const editUsers = (user: IUser) => (
+//   dispatch: Dispatch<IAction>,
+//   getState: Function
+// ) => {
+//   axios({
+//     method: "get",
+//     url: "",
+//     ...tokenConfig(getState)
+
+//   })
+//     // .post('/api/user', user, tokenConfig(getState))
+//     .then(res =>
+//       dispatch({
+//         type: EDIT_USER,
+//         payload: res
+//       })
+//     )
+//     .catch(err =>
+//       dispatch(returnErrors(err.data, err.status))
+//     );
+// };
 
 
-export const getUserById = (id: string) => (
-  dispatch: Dispatch<IAction>,
-  getState: Function
-) => {
-  axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: EDIT_USER,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
+// export const getUserById = (id: string) => (
+//   dispatch: Dispatch<IAction>,
+//   getState: Function
+// ) => {
+//   axios({
+//     method: "get",
+//     url: "",
+//     ...tokenConfig(getState)
+
+//   })
+//     // .delete(`/api/items/${id}`, tokenConfig(getState))
+//     .then(res =>
+//       dispatch({
+//         type: EDIT_USER,
+//         payload: res
+//       })
+//     )
+//     .catch(err =>
+//       dispatch(returnErrors(err.data, err.status))
+//     );
+// };
 
 export const deleteUser = (id: string) => (
   dispatch: Dispatch<IAction>,
   getState: Function
 ) => {
-  axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
+  axios({
+    method: "get",
+    url: "",
+    ...tokenConfig(getState)
+
+  })
+    // .delete(`/api/items/${id}`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: DELETE_USER,
@@ -69,7 +89,7 @@ export const deleteUser = (id: string) => (
       })
     )
     .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
+      dispatch(returnErrors(err.data, err.status))
     );
 };
 
