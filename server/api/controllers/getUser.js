@@ -10,10 +10,10 @@ const _getUser = async (req, res) => {
       queryObj._id = req.id;
       queryObj.isActive = true;
     } else {
-      if (!req.body.email) {
-        return Services._validationError();
+      if (!req.query._id || !req.query._id?.trim()) {
+        return Services._validationError(res,"Please provide the id");
       }
-      queryObj.email = req.body.email;
+      queryObj._id = req.query._id;
     }
 
     let user = await UserModel.findOne({ queryObj })
