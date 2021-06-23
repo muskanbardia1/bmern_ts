@@ -9,8 +9,7 @@
 		"test": "mocha || true ",
 		"client": "npm start --prefix client",
 		"debug": "nodemon --inspect server/app.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-
+		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"keywords": [],
 	"author": "",
@@ -37,5 +36,8 @@
 		"sendgrid": "^5.2.3",
 		"swagger-ui-express": "^4.1.4",
 		"validator": "^13.1.17"
+	},
+	"devDependencies": {
+		"concurrently": "^6.2.0"
 	}
 }
