@@ -12,12 +12,11 @@ var disconnected = chalk.bold.red;
 var termination = chalk.bold.magenta;
 
 const defaultList = {
-		email: process.env.ADMIN_EMAIL,
-		password: process.env.ADMIN_PASSWORD,
-	},
+	email: process.env.ADMIN_EMAIL,
+	password: process.env.ADMIN_PASSWORD,
+};
 
-
-module.exports=  () =>{
+module.exports = () => {
 	mongoose.connect(dbURL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
@@ -26,24 +25,21 @@ module.exports=  () =>{
 	});
 
 	mongoose.connection.once("open", () => {
-		
-			userModel
-				.find({ userType: "ADMIN", isActive: true })
-				.count(async function (err, count) {
-					try {
-						if (err) {
-							console.log(err);
-						}
-						if (!err && !count) {
-							const user=new userModel(defaultList);
-							await user.save()
-						}
-						
-					} catch (error) {
-						console.log(error);
+		userModel
+			.find({ userType: "ADMIN", isActive: true })
+			.count(async function (err, count) {
+				try {
+					if (err) {
+						console.log(err);
 					}
-				});
-		
+					if (!err && !count) {
+						const user = new userModel(defaultList);
+						await user.save();
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			});
 	});
 
 	mongoose.connection.on("connected", function () {
