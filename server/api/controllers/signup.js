@@ -39,22 +39,24 @@ const _signup = async (req, res, next) => {
 
     user = await user.save();
 
-    delete user.password
+    
 
     const userToken = await jwt.sign(
       { userData: user._id.toString() },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
+    const userData = user.toObject();
+		delete userData.password;
 
     Services._response(
-      res,
-      {
-        userToken,
-        userData: user,
-      },
-      "Registered successfully"
-    );
+			res,
+			{
+				token: userToken,
+				user:userData,
+			},
+			"Registered successfully"
+		);
   } catch (error) {
     return Services._validationError(res, error, "Error in _getUsers");
   }

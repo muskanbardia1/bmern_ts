@@ -65,7 +65,7 @@ const SignIn: React.FC<ILoginModal> = ({
 			return <Redirect to="/adminDashboard" />;
 		}
 
-		return <Redirect to={`/dashboard?_id=${userId}`} />;
+		return <Redirect to={`/userDashboard?_id=${userId}`} />;
 	}
 
 	return (

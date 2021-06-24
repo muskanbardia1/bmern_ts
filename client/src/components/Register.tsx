@@ -17,7 +17,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import { connect } from "react-redux";
 import { register } from "../flux/actions/authActions";
 import { clearErrors } from "../flux/actions/errorActions";
-import { IRegisterModal, IRootState } from "../types/interfaces";
+import { IRegisterModal, IRootState, IUser } from "../types/interfaces";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	media: {
@@ -62,15 +62,15 @@ const SignUp: React.FC<IRegisterModal> = ({
 	userId,
 }) => {
 	const classes = useStyles();
-	const [data, setData] = useState({
+	const [data, setData] = useState<IUser>({
 		firstName: "",
-		lname: "",
+		lastName: "",
 		email: "",
 		password: "",
-		password2: "",
-		address: "",
-		phone: "",
-		image: "",
+		confirmPassword: "",
+		Address: "",
+		mobileNumber: "",
+		userImage: "",
 	});
 	// const [isValidated, setIsValidated] = useState(false);
 
@@ -87,13 +87,13 @@ const SignUp: React.FC<IRegisterModal> = ({
 		const file = e.target.files[0];
 		const reader = new FileReader();
 
-		reader.onload = function (data: any) {
-			let dataURL = data.target.result;
+		reader.onload = function (dataa: any) {
+			let dataURL = dataa.target.result;
 			dataURL = dataURL.replace(";base64", `;name=${file.name};base64`);
 
 			setData({
 				...data,
-				image: dataURL,
+				userImage: dataURL,
 			});
 		};
 
@@ -114,7 +114,7 @@ const SignUp: React.FC<IRegisterModal> = ({
 	};
 
 	if (isAuthenticated && userId) {
-		return <Redirect to={`/dashboard?_id=${userId}`} />;
+		return <Redirect to={`/userDashboard?_id=${userId}`} />;
 	}
 
 	return (
@@ -149,13 +149,13 @@ const SignUp: React.FC<IRegisterModal> = ({
 								fullWidth
 								id="lastName"
 								label="Last Name"
-								value={data.lname}
+								value={data.lastName}
 								name="lastName"
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setFormField("lname", e.target.value)
+									setFormField("lastName", e.target.value)
 								}
 							/>
-							<span id="lname"></span>
+							<span id="lastName"></span>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
@@ -178,9 +178,9 @@ const SignUp: React.FC<IRegisterModal> = ({
 								name="phone"
 								type="tel"
 								label="Phone Number*"
-								value={data.phone}
+								value={data.mobileNumber}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setFormField("phone", e.target.value)
+									setFormField("mobileNumber", e.target.value)
 								}
 								className={classes.contact}
 								variant="outlined"
@@ -192,10 +192,10 @@ const SignUp: React.FC<IRegisterModal> = ({
 								aria-label="minimum height"
 								placeholder="Address"
 								className={classes.contact}
-								value={data.address}
+								value={data.Address}
 								variant="outlined"
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setFormField("address", e.target.value)
+									setFormField("Address", e.target.value)
 								}
 							/>
 						</Grid>
@@ -220,13 +220,13 @@ const SignUp: React.FC<IRegisterModal> = ({
 								variant="outlined"
 								required
 								fullWidth
-								value={data.password2}
+								value={data.confirmPassword}
 								name="confirm password"
 								label="Confirm Password"
 								type="password"
 								id="conformpassword"
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setFormField("password2", e.target.value)
+									setFormField("confirmPassword", e.target.value)
 								}
 							/>
 						</Grid>
@@ -240,11 +240,11 @@ const SignUp: React.FC<IRegisterModal> = ({
 								onChange={handleUploadClick}
 							/>
 							<CardActionArea>
-								{data.image && (
+								{data.userImage && (
 									<img
 										width="100%"
 										className={classes.media}
-										src={data.image}
+										src={data.userImage}
 										alt=""
 									/>
 								)}

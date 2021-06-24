@@ -36,7 +36,7 @@ export const getUserById = (id?:string) => (dispatch: Dispatch<IAction>, getStat
       })
     )
     .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.data, err.status));
       dispatch({
         type: AUTH_ERROR
       });
@@ -44,14 +44,14 @@ export const getUserById = (id?:string) => (dispatch: Dispatch<IAction>, getStat
 };
 
 // Register User
-export const register = ({ fname, email, password,lname,address,phone,image }: IUser) => (
+export const register = ({ firstName, email, password,lastName,Address,mobileNumber,userImage }: IUser) => (
   dispatch: Dispatch<IAction>
 ) => {
   // Headers
   
 
   // Request body
-  const data = JSON.stringify({ fname, email, password,lname,address,phone,image });
+  const data = JSON.stringify({ firstName, email, password,lastName,Address,mobileNumber,userImage });
 
   axios({
     method: "post",
@@ -72,7 +72,7 @@ export const register = ({ fname, email, password,lname,address,phone,image }: I
     )
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
+        returnErrors(err.data, err.status, 'REGISTER_FAIL')
       );
       dispatch({
         type: REGISTER_FAIL
@@ -80,14 +80,14 @@ export const register = ({ fname, email, password,lname,address,phone,image }: I
     });
 };
 
-export const editUser = ({ fname, email, password, lname, address, phone, image, _id }: IUser) => (
+export const editUser = ({ firstName, email, password, lastName, Address, mobileNumber, userImage, _id }: IUser) => (
   dispatch: Dispatch<IAction>,getState: Function
 ) => {
   // Headers
   
 
   // Request body
-  const data = JSON.stringify({ fname, email, password, lname, address, phone, image, userId :_id});
+  const data = JSON.stringify({ firstName, email, password, lastName, Address, mobileNumber, userImage, userId :_id});
 
   axios({
     method: "post",
@@ -105,7 +105,7 @@ export const editUser = ({ fname, email, password, lname, address, phone, image,
     )
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
+        returnErrors(err.data, err.status, 'REGISTER_FAIL')
       );
       dispatch({
         type: REGISTER_FAIL
@@ -172,7 +172,7 @@ export const tokenConfig = (getState: Function) => {
 
   // If token, add to headers
   if (token) {
-    config.headers['authorization'] = token;
+    config.headers['authorization'] = `Bearer ${token}`;
   }
 
   return config;

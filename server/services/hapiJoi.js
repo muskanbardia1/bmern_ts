@@ -24,7 +24,7 @@ const email = Joi.string()
     "string.email": "Enter valid Email",
   });
 
-const userImage = Joi.string().base64().required().messages({
+const userImage = Joi.string().required().messages({
   "string.base64": "Image must be in base64",
   "binary.max": "max size is 5mb",
   "string.empty": "image can not be empty",
@@ -94,6 +94,7 @@ const changePasswordSchema = Joi.object().keys({
 const editUserSchema = Joi.object()
   .keys({
     firstName,
+    lastName:firstName,
     email,
     userImage,
     mobileNumber,
@@ -104,6 +105,7 @@ const editUserSchema = Joi.object()
 
 const signUpSchema = Joi.object().keys({
   firstName,
+  lastName:firstName,
   email,
   password,
   confirmPassword: Joi.any().valid(Joi.ref("password")).messages({

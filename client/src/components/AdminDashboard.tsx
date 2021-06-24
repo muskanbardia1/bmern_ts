@@ -160,9 +160,9 @@ const UserList: React.FC<IUserListDashBoard> = ({
 			const filteredRows = users.filter((row) => {
 				return (
 					row.email.toLowerCase().includes(searchedVal.toLowerCase()) ||
-					row.phone?.includes(searchedVal.toLowerCase()) ||
-					row.fname?.toLowerCase().includes(searchedVal.toLowerCase()) ||
-					row.lname?.toLowerCase().includes(searchedVal.toLowerCase())
+					row.mobileNumber?.includes(searchedVal.toLowerCase()) ||
+					row.firstName?.toLowerCase().includes(searchedVal.toLowerCase()) ||
+					row.lastName?.toLowerCase().includes(searchedVal.toLowerCase())
 				);
 			});
 			setdata(filteredRows);
@@ -237,9 +237,9 @@ const UserList: React.FC<IUserListDashBoard> = ({
 					</IconButton>
 				</div>
 				<Divider />
-				<List>{ }</List>
+				<List>{}</List>
 				<Divider />
-				<List>{ }</List>
+				<List>{}</List>
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
@@ -276,26 +276,26 @@ const UserList: React.FC<IUserListDashBoard> = ({
 											{data.map((user, id) => (
 												<TableRow key={user.email + "_" + id}>
 													<TableCell>
-														{user.image && (
+														{user.userImage && (
 															<img
 																width="40%"
 																className={classes.media}
-																src={user.image}
+																src={user.userImage}
 																alt=""
 															/>
 														)}
 													</TableCell>
 													<TableCell>
-														{user?.fname + " " + user?.lname}
+														{user?.firstName + " " + user?.lastName}
 													</TableCell>
 													<TableCell>{user.email}</TableCell>
-													<TableCell>{user.address}</TableCell>
-													<TableCell>{user.phone}</TableCell>
+													<TableCell>{user.Address}</TableCell>
+													<TableCell>{user.mobileNumber}</TableCell>
 													<TableCell align="right">
 														<Button
 															variant="contained"
 															onClick={() =>
-																history.push(`/dashboard?_id=${user._id}`)
+																history.push(`/userDashboard?_id=${user._id}`)
 															}
 															color="primary">
 															View

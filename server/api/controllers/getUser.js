@@ -16,9 +16,9 @@ const _getUser = async (req, res) => {
       queryObj._id = req.query._id;
     }
 
-    let user = await UserModel.findOne({ queryObj })
+    let user = await UserModel.findOne(queryObj )
       .select(
-        "email mobileNumber Address  isActive created_at userId Description userImage"
+        "email mobileNumber Address  isActive created_at userId Description userImage firstName lastName"
       )
       .lean(true)
       .exec();
@@ -26,7 +26,7 @@ const _getUser = async (req, res) => {
     Services._response(
       res,
 
-      user,
+      {user},
 
       "Users fetched successfully"
     );

@@ -17,16 +17,16 @@ export interface IMsg {
 
 // AUTH
 export interface IUser {
-  fname?: string;
-  lname?: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   password?: string;
-  password2?: string;
+  confirmPassword?: string;
 
-  address?: string;
-  phone?: string;
+  Address?: string;
+  mobileNumber?: string;
   _id?: string;
-  image?: string
+  userImage?: string
   userType?:UserType.ADMIN | UserType.USER
 
 

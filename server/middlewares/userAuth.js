@@ -14,11 +14,13 @@ module.exports = function authorization(roles = []) {
       // var bearerHeader =  req.headers["authorization"]  || req.query["api_key"];
       // console.log(bearerHeader);
 
-      const token = req.headers["authorization"];
-      if (!token) {
+      let token = req.headers["authorization"];
+      
+      if (!token ) {
         return Services._validationError(res, "No token,authorization failed");
       }
       try {
+        token = token.split(" ")[1];
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.id = decoded.userData;
         let data = await User.findOne({
