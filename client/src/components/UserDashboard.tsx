@@ -19,7 +19,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import clsx from "clsx";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import MuiPhoneNumber from "material-ui-phone-number";
 import Fab from "@material-ui/core/Fab";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import { connect } from "react-redux";
@@ -33,7 +32,7 @@ import { Link, useLocation } from "react-router-dom";
 // import { isLogged } from "../redux/actions";
 import { getUserById, logout, editUser } from "../flux/actions/authActions";
 import { clearErrors } from "../flux/actions/errorActions";
-import { IUserDashboard, IRootState } from "../types/interfaces";
+import { IUserDashboard, IRootState, IUser } from "../types/interfaces";
 
 const drawerWidth = 240;
 
@@ -151,7 +150,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	contact: {
 		width: "100%",
 	},
-	imageUp: {
+	userImageUp: {
 		display: "none",
 	},
 	button: {
@@ -175,15 +174,15 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const [isDisabled, setToggle] = useState(true);
-	const [data, setData] = useState<any>({
-		fname: "",
-		lname: "",
+	const [data, setData] = useState<IUser>({
+		firstName: "",
+		lastName: "",
 		email: "",
-		address: "",
-		phone: "",
-		image: "",
+		Address: "",
+		mobileNumber: "",
+		userImage: "",
 		password: "",
-		password2: "",
+		confirmPassword: "",
 	});
 
 	const setFormField = (key: string, value: any) => {
@@ -206,7 +205,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 
 			setData({
 				...data,
-				image: dataURL,
+				userImage: dataURL,
 			});
 		};
 
@@ -214,20 +213,26 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	};
 
 	const searchQuery = new URLSearchParams(useLocation().search).get("_id");
+	console.log("====================================");
+	console.log(searchQuery);
+	console.log("====================================");
+
+	useEffect(() => {
+		setData({
+			firstName: auth?.user?.firstName ?? "",
+			lastName: auth?.user?.lastName ?? "",
+			email: auth?.user?.email ?? "",
+			Address: auth?.user?.Address ?? "",
+			mobileNumber: auth?.user?.mobileNumber ?? "",
+			userImage: auth?.user?.userImage ?? "",
+			password: "",
+			confirmPassword: "",
+		});
+	}, [auth.user]);
 
 	useEffect(() => {
 		if (searchQuery) getUserById(searchQuery);
-		setData({
-			fname: auth?.user?.fname ?? "",
-			lname: auth?.user?.lname ?? "",
-			email: auth?.user?.email ?? "",
-			address: auth?.user?.address ?? "",
-			phone: auth?.user?.phone ?? "",
-			image: auth?.user?.image ?? "",
-			password: "",
-			password2: "",
-		});
-	}, [getUserById, auth.user, searchQuery]);
+	}, [searchQuery]);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -238,14 +243,14 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const cancelUpdate = () => {
 		if (!isDisabled) {
 			setData({
-				fname: auth?.user?.fname ?? "",
-				lname: auth?.user?.lname ?? "",
+				firstName: auth?.user?.firstName ?? "",
+				lastName: auth?.user?.lastName ?? "",
 				email: auth?.user?.email ?? "",
-				address: auth?.user?.address ?? "",
-				phone: auth?.user?.phone ?? "",
-				image: auth?.user?.image ?? "",
+				Address: auth?.user?.Address ?? "",
+				mobileNumber: auth?.user?.mobileNumber ?? "",
+				userImage: auth?.user?.userImage ?? "",
 				password: "",
-				password2: "",
+				confirmPassword: "",
 			});
 		}
 		setToggle(!isDisabled);
@@ -285,7 +290,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 						Dashboard
 					</Typography>
 					<Tooltip title="Sign out" aria-label="add">
-						<Link to="/login">
+						<Link to="/">
 							<IconButton color="inherit" onClick={logout}>
 								<Badge color="secondary">
 									<ExitToAppIcon style={{ color: "white" }} />
@@ -321,11 +326,11 @@ const UserDashboard: React.FC<IUserDashboard> = ({
                 className={classes.main}
                 maxWidth="sm"
               >
-                {data.image && (
+                {data.userImage && (
                   <img
                     width="20%"
                     className={classes.media}
-                    src={data.image}
+                    src={data.userImage}
                     alt=""
                   />
                 )}
@@ -350,7 +355,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 								{!isDisabled && (
 									<input
 										accept="image/*"
-										className={classes.imageUp}
+										className={classes.userImageUp}
 										id="contained-button-file"
 										multiple
 										type="file"
@@ -358,11 +363,11 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									/>
 								)}
 								<CardActionArea>
-									{data.image && (
+									{data.userImage && (
 										<img
 											width="40%"
 											className={classes.media}
-											src={data.image}
+											src={data.userImage}
 											alt=""
 										/>
 									)}
@@ -383,13 +388,13 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									variant="outlined"
 									required
 									disabled={isDisabled}
-									value={data.fname}
+									value={data.firstName}
 									id="firstName"
 									fullWidth
 									label="First Name"
 									autoFocus
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-										setFormField("fname", e.target.value)
+										setFormField("firstName", e.target.value)
 									}
 								/>
 								<span id="fname"></span>
@@ -398,7 +403,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 								<TextField
 									variant="outlined"
 									required
-									value={data.lname}
+									value={data.lastName}
 									fullWidth
 									id="lastName"
 									label="Last Name"
@@ -406,7 +411,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									disabled={isDisabled}
 									autoComplete="lname"
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-										setFormField("lname", e.target.value)
+										setFormField("lastName", e.target.value)
 									}
 								/>
 								<span id="lname"></span>
@@ -429,15 +434,13 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 							</Grid>
 
 							<Grid item xs={12}>
-								<MuiPhoneNumber
+								<TextField
 									name="phone"
+									type="tel"
 									label="Phone Number*"
-									data-cy="user-phone"
-									disabled={isDisabled}
-									value={data.phone}
-									defaultCountry={"us"}
+									value={data.mobileNumber}
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-										setFormField("phone", e.target.value)
+										setFormField("mobileNumber", e.target.value)
 									}
 									className={classes.contact}
 									variant="outlined"
@@ -447,13 +450,13 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 								<TextField
 									label="Address*"
 									aria-label="minimum height"
-									value={data.address}
+									value={data.Address}
 									disabled={isDisabled}
 									placeholder="Address"
 									className={classes.contact}
 									variant="outlined"
 									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-										setFormField("address", e.target.value)
+										setFormField("Address", e.target.value)
 									}
 								/>
 							</Grid>

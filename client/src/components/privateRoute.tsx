@@ -24,6 +24,9 @@ const PrivateRoute: React.FC<ProtectedRouteProps> = ({
 	userType,
 	...rest
 }) => {
+	console.log('====================================');
+	console.log(isAuthenticated, path, userType);
+	console.log('====================================');
 	return (
 		<Route
 			{...rest}

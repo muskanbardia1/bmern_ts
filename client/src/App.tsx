@@ -25,7 +25,11 @@ function App() {
 				<Switch>
 					<Route path="/" exact component={SignIn} />
 					<Route exact path="/register" component={Register} />
-					<Route exact path="/userDashboard" component={UserDashboard} />
+					<ProtectedRoute
+						exact
+						path="/userDashboard"
+						component={UserDashboard}
+					/>
 					<ProtectedRoute
 						exact
 						path="/adminDashboard"
