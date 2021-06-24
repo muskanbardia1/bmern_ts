@@ -26,7 +26,6 @@ export interface IUser {
   address?: string;
   phone?: string;
   _id?: string;
-  token?: any;
   image?: string
   userType?:UserType.ADMIN | UserType.USER
 
@@ -165,6 +164,7 @@ export interface IUserRedux {
   isLoading: boolean;
   isAuthenticated: boolean;
   user: IUser | null
+  token:string | null
 }
 
 

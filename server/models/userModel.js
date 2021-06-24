@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema(
 		userType: {
 			type: String,
 			enum: ["ADMIN", "USER"],
+			default: "USER",
 		},
 		isActive: {
 			type: Boolean,
@@ -64,11 +65,10 @@ UserSchema.statics.findUserByEmail = async function (email, mobileNumber,_id) {
   }
   // const user = await this.findOne({ email });
   const user = await this.findOne(queryObj)
-    .select(
-      "email mobileNumber Address  isActive created_at userId Description"
-    )
-    .lean(true)
-    .exec();
+		.select(
+			"email mobileNumber Address  isActive created_at userId Description password userType"
+		)
+		.exec();
   return user;
 };
 

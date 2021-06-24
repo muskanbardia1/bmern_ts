@@ -9,21 +9,24 @@ import {
   REGISTER_FAIL
 } from '../actions/types';
 
-import {IUserRedux,actionTypes,IUser} from "../../types/interfaces"
+import { IUserRedux, actionTypes, IUser } from "../../types/interfaces"
 
-
+interface IPayload{
+   user: IUser, token ?: string 
+}
 interface IAction {
   type: actionTypes;
-  payload: IUser;
+  payload: IPayload;
 }
 
-const initialState:IUserRedux = {
+const initialState: IUserRedux = {
   isAuthenticated: false,
   isLoading: false,
   user: null,
+  token: null
 };
 
-const userReducer= (state = initialState, action: IAction):IUserRedux =>{
+const userReducer = (state = initialState, action: IAction): IUserRedux => {
   switch (action.type) {
     case USER_LOADING:
       return {
@@ -35,11 +38,11 @@ const userReducer= (state = initialState, action: IAction):IUserRedux =>{
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload
+        user: action.payload.user
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('token', action.payload.token||"");
       return {
         ...state,
         ...action.payload,
@@ -55,7 +58,8 @@ const userReducer= (state = initialState, action: IAction):IUserRedux =>{
         ...state,
         user: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
+        token: null
       };
     default:
       return state;

@@ -10,7 +10,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import CardActionArea from "@material-ui/core/CardActionArea";
-import MuiPhoneNumber from "material-ui-phone-number";
 // import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 // import Fab from "@material-ui/core/Fab";
 // import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
@@ -64,7 +63,7 @@ const SignUp: React.FC<IRegisterModal> = ({
 }) => {
 	const classes = useStyles();
 	const [data, setData] = useState({
-		fname: "",
+		firstName: "",
 		lname: "",
 		email: "",
 		password: "",
@@ -103,6 +102,9 @@ const SignUp: React.FC<IRegisterModal> = ({
 
 	const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		console.log('====================================');
+		console.log(data);
+		console.log('====================================');
 
 		// Create user object
 
@@ -132,10 +134,10 @@ const SignUp: React.FC<IRegisterModal> = ({
 								id="name"
 								fullWidth
 								label="First Name"
-								value={data.fname}
+								value={data.firstName}
 								autoFocus
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setFormField("fname", e.target.value)
+									setFormField("firstName", e.target.value)
 								}
 							/>
 							<span id="fname"></span>
@@ -157,6 +159,7 @@ const SignUp: React.FC<IRegisterModal> = ({
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+								type="email"
 								variant="outlined"
 								required
 								fullWidth
@@ -171,11 +174,10 @@ const SignUp: React.FC<IRegisterModal> = ({
 						</Grid>
 
 						<Grid item xs={12}>
-							<MuiPhoneNumber
+							<TextField
 								name="phone"
+								type="tel"
 								label="Phone Number*"
-								data-cy="user-phone"
-								defaultCountry={"us"}
 								value={data.phone}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 									setFormField("phone", e.target.value)
@@ -286,7 +288,6 @@ const SignUp: React.FC<IRegisterModal> = ({
 const mapStateToProps = (state: IRootState) => ({
 	isAuthenticated: state.auth.isAuthenticated,
 	userId: state.auth.user?._id,
-
 	error: state.error,
 });
 

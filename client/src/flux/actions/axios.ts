@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 const baseUrl = process.env.REACT_APP_BASE_URL || "http://localhost:4000";
 axios.defaults.baseURL = `${baseUrl}/api`;
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.defaults.timeout = 5000;
 
 

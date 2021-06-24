@@ -215,7 +215,7 @@ const UserList: React.FC<IUserListDashBoard> = ({
 						Dashboard
 					</Typography>
 					<Tooltip title="Sign out" aria-label="add">
-						<Link to="/login">
+						<Link to="/">
 							<IconButton color="inherit" onClick={logout}>
 								<Badge color="secondary">
 									<ExitToAppIcon style={{ color: "white" }} />
@@ -237,9 +237,9 @@ const UserList: React.FC<IUserListDashBoard> = ({
 					</IconButton>
 				</div>
 				<Divider />
-				<List>{}</List>
+				<List>{ }</List>
 				<Divider />
-				<List>{}</List>
+				<List>{ }</List>
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />

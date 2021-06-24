@@ -14,6 +14,7 @@ var termination = chalk.bold.magenta;
 const defaultList = {
 	email: process.env.ADMIN_EMAIL,
 	password: process.env.ADMIN_PASSWORD,
+	userType: "ADMIN",
 };
 
 module.exports = () => {

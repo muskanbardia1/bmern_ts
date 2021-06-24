@@ -5,8 +5,8 @@ const { loginSchema } = require("../../services/hapiJoi");
 
 const _login = async (req, res, next) => {
   try {
-    console.log(req.body);
-    return res.send("success")
+    // console.log(req.body);
+    // return res.send("success")
     let result = loginSchema.validate(req.body);
 
     if (result.error) {
@@ -44,16 +44,21 @@ const _login = async (req, res, next) => {
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
+    const userData=user.toObject()
+    delete userData.password
 
     Services._response(
       res,
       {
-        userToken,
-        userData: user,
+        token:userToken,
+         user:userData,
       },
       "Login successfully"
     );
   } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
     return Services._validationError(res, error, "Error in _getUsers");
   }
 };

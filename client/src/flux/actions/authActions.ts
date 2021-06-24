@@ -143,7 +143,7 @@ export const login = ({ email, password }: IUser) => (
     )
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
+        returnErrors(err.data, err.status, 'LOGIN_FAIL')
       );
       dispatch({
         type: LOGIN_FAIL
@@ -172,7 +172,7 @@ export const tokenConfig = (getState: Function) => {
 
   // If token, add to headers
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers['authorization'] = token;
   }
 
   return config;

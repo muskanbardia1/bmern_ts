@@ -6,7 +6,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import { getUserById } from "./flux/actions/authActions";
-import {useDispatch} from "react-redux"
+import { useDispatch } from "react-redux"
 import ProtectedRoute from "./components/privateRoute"
 
 
@@ -14,12 +14,12 @@ import "./App.css";
 export const history = createBrowserHistory();
 
 function App() {
-  const dispatch=useDispatch()
+	// const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(getUserById());
-  }, []);
-  return (
+	// useEffect(() => {
+	// 	dispatch(getUserById());
+	// }, []);
+	return (
 		<Router history={history}>
 			<div className="App">
 				<Switch>
