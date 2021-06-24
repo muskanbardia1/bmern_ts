@@ -18,7 +18,7 @@ const _getUser = async (req, res) => {
 
     let user = await UserModel.findOne(queryObj )
       .select(
-        "email mobileNumber Address  isActive created_at userId Description userImage firstName lastName"
+        "email mobileNumber Address  isActive created_at userId Description userImage firstName lastName userType"
       )
       .lean(true)
       .exec();
