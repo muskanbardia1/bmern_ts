@@ -175,14 +175,14 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const [open, setOpen] = useState(false);
 	const [isDisabled, setToggle] = useState(true);
 	const [data, setData] = useState<IUser>({
+		_id:"",
 		firstName: "",
 		lastName: "",
 		email: "",
 		Address: "",
 		mobileNumber: "",
-		userImage: "",
-		password: "",
-		confirmPassword: "",
+		userImage: ""
+		
 	});
 
 	const setFormField = (key: string, value: any) => {
@@ -213,20 +213,18 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	};
 
 	const searchQuery = new URLSearchParams(useLocation().search).get("_id");
-	console.log("====================================");
-	console.log(searchQuery);
-	console.log("====================================");
+	
 
 	useEffect(() => {
+		setToggle(true)
 		setData({
+			_id: auth?.user?._id ?? "",
 			firstName: auth?.user?.firstName ?? "",
 			lastName: auth?.user?.lastName ?? "",
 			email: auth?.user?.email ?? "",
 			Address: auth?.user?.Address ?? "",
 			mobileNumber: auth?.user?.mobileNumber ?? "",
 			userImage: auth?.user?.userImage ?? "",
-			password: "",
-			confirmPassword: "",
 		});
 	}, [auth.user]);
 
@@ -243,20 +241,20 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const cancelUpdate = () => {
 		if (!isDisabled) {
 			setData({
+				_id: auth?.user?._id ?? "",
 				firstName: auth?.user?.firstName ?? "",
 				lastName: auth?.user?.lastName ?? "",
 				email: auth?.user?.email ?? "",
 				Address: auth?.user?.Address ?? "",
 				mobileNumber: auth?.user?.mobileNumber ?? "",
 				userImage: auth?.user?.userImage ?? "",
-				password: "",
-				confirmPassword: "",
 			});
 		}
 		setToggle(!isDisabled);
 	};
 
-	const handleOnSubmit = () => {
+	const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		editUser(data);
 	};
 	// const signOut = () => {

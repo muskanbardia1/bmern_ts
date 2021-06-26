@@ -6,8 +6,8 @@ const _getUsers = async (req, res) => {
     let { page = 1, limit = 20, sort = null } = req.body;
 
    
-    let user = await UserModel.find({ userType: 2 })
-			.select("email mobileNumber Address  isActive created_at userId lastName firstName")
+    let user = await UserModel.find({ userType: "USER",isActive:true })
+			.select("email mobileNumber Address  created_at userId lastName firstName")
 			.lean(true)
 			.skip((page - 1) * limit)
 			.limit(limit * 1)

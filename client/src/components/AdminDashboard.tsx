@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect}from "react";
 import { Link } from "react-router-dom";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -151,9 +151,14 @@ const UserList: React.FC<IUserListDashBoard> = ({
 		setOpen(false);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
+		getUsers()
+	},[])
+
+	useEffect(() => {
 		setdata(users);
 	}, [users]);
+
 
 	const requestSearch = (searchedVal: string) => {
 		if (searchedVal !== "") {
@@ -237,9 +242,9 @@ const UserList: React.FC<IUserListDashBoard> = ({
 					</IconButton>
 				</div>
 				<Divider />
-				<List>{}</List>
+				<List>{ }</List>
 				<Divider />
-				<List>{}</List>
+				<List>{ }</List>
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />

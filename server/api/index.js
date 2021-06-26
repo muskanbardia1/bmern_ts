@@ -10,13 +10,15 @@ const { _getUser } = require("./controllers/getUser");
 const { _getUsers } = require("./controllers/getUsersList");
 const { _editUser } = require("./controllers/editUser");
 const { _signup } = require("./controllers/signup");
+const { _deleteUser } = require("./controllers/deleteUser");
 router.post("/login", _login);
 router.post("/signup", _signup);
 // router.post("/forgotPassword", forget);
 // router.post("/resetPassword", resetPassword);
 // router.post("/changePassword", auth([1, 2]), changePassword);
-router.post("/getUserList", auth(["ADMIN"]), _getUsers);
+router.get("/getUserList", auth(["ADMIN"]), _getUsers);
 router.get("/getUser", auth(["USER","ADMIN"]), _getUser);
+router.get("/deleteUser", auth(["ADMIN"]), _deleteUser);
 router.post("/editUser", auth(["USER", "ADMIN"]), _editUser);
 
 module.exports = router;

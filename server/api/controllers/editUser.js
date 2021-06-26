@@ -23,15 +23,17 @@ const _editUser = async (req, res, next) => {
           "Provide userId"
         );
       }
+      delete req.body.userId;
 
       user = await userModel
         .findByIdAndUpdate(req.body.userId, req.body, { new: true })
         .exec();
     } else {
+      delete req.body.userId;
       user = await userModel.findByIdAndUpdate(req.id, req.body,{new:true}).exec();
     }
 
-    Services._response(res, user, "Upadted successfully");
+    Services._response(res, {user}, "Upadted successfully");
   } catch (error) {
     return Services._validationError(res, error, "Error in editUser");
   }

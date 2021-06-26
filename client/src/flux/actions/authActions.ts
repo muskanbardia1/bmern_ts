@@ -80,14 +80,14 @@ export const register = ({ firstName, email, password,lastName,Address,mobileNum
     });
 };
 
-export const editUser = ({ firstName, email, password, lastName, Address, mobileNumber, userImage, _id }: IUser) => (
+export const editUser = ({ firstName, email, lastName, Address, mobileNumber, userImage, _id }: IUser) => (
   dispatch: Dispatch<IAction>,getState: Function
 ) => {
   // Headers
   
 
   // Request body
-  const data = JSON.stringify({ firstName, email, password, lastName, Address, mobileNumber, userImage, userId :_id});
+  const data = JSON.stringify({ firstName, email, lastName, Address, mobileNumber, userImage, userId :_id});
 
   axios({
     method: "post",
@@ -99,7 +99,7 @@ export const editUser = ({ firstName, email, password, lastName, Address, mobile
     // .post('/api/auth/register', body, tokenConfig(getState))
     .then(res =>
       dispatch({
-        type: REGISTER_SUCCESS,
+        type: USER_LOADED,
         payload: res
       })
     )

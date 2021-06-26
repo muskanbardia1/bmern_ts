@@ -71,13 +71,14 @@ export const getUsers = () => (dispatch: Dispatch<IAction>, getState: Function) 
 //     );
 // };
 
-export const deleteUser = (id: string) => (
+export const deleteUser = (_id: string) => (
   dispatch: Dispatch<IAction>,
   getState: Function
 ) => {
   axios({
     method: "get",
-    url: "",
+    url: "/deleteUser",
+    params:{_id},
     ...tokenConfig(getState)
 
   })
@@ -85,7 +86,7 @@ export const deleteUser = (id: string) => (
     .then(res =>
       dispatch({
         type: DELETE_USER,
-        payload: id
+        payload: _id
       })
     )
     .catch(err =>
