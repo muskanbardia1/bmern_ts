@@ -1,43 +1,26 @@
 {
-	"name": "breactPoc",
+	"name": "bmern_ts",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"dependencies": {
+		"concurrently": "^6.2.0"
+	},
+	"devDependencies": {},
 	"scripts": {
-		"start": "nodemon server/app.js",
-		"server": "node server/app.js",
+		"server": "npm start --prefix server",
 		"test": "mocha || true ",
 		"client": "npm start --prefix client",
-		"debug": "nodemon --inspect server/app.js",
 		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
-	"keywords": [],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bunnygarg11/bmern_ts.git"
+	},
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"@hapi/joi": "^17.1.1",
-		"@hapi/joi-date": "^2.0.1",
-		"@sendgrid/mail": "^7.3.0",
-		"bcryptjs": "^2.4.3",
-		"chalk": "^4.1.0",
-		"compression": "^1.7.4",
-		"cors": "^2.8.5",
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"gridfs-stream": "^1.1.1",
-		"jsonwebtoken": "^8.5.1",
-		"jwt-simple": "^0.5.6",
-		"mongodb": "^3.6.2",
-		"mongoose": "^5.10.8",
-		"mongoose-sequence": "^5.3.1",
-		"multer": "^1.4.2",
-		"multer-gridfs-storage": "^4.2.0",
-		"nodemon": "^2.0.4",
-		"sendgrid": "^5.2.3",
-		"swagger-ui-express": "^4.1.4",
-		"validator": "^13.1.17"
+	"bugs": {
+		"url": "https://github.com/bunnygarg11/bmern_ts/issues"
 	},
-	"devDependencies": {
-		"concurrently": "^6.2.0"
-	}
+	"homepage": "https://github.com/bunnygarg11/bmern_ts#readme"
 }
