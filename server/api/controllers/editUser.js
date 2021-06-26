@@ -14,24 +14,23 @@ const _editUser = async (req, res, next) => {
       );
     }
 
-    let user;
-    if (req.userType == "ADMIN") {
-      if (!req.body.userId ) {
-        return Services._validationError(
-          res,
-          "Provide userId",
-          "Provide userId"
-        );
-      }
-      delete req.body.userId;
+   
 
-      user = await userModel
-        .findByIdAndUpdate(req.body.userId, req.body, { new: true })
-        .exec();
-    } else {
-      delete req.body.userId;
-      user = await userModel.findByIdAndUpdate(req.id, req.body,{new:true}).exec();
-    }
+      let user = await userModel
+				.findByIdAndUpdate(
+					req.body.userId || req.id,
+					{
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						userImage: req.body.userImage,
+						mobileNumber: req.body.mobileNumber,
+						Address: req.body.Address,
+						Description: req.body.Description,
+					},
+					{ new: true }
+				)
+				.exec();
+    
 
     Services._response(res, {user}, "Upadted successfully");
   } catch (error) {

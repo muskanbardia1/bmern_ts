@@ -14,11 +14,11 @@ import "./App.css";
 export const history = createBrowserHistory();
 
 function App() {
-	// const dispatch = useDispatch()
+	const dispatch = useDispatch()
 
-	// useEffect(() => {
-	// 	dispatch(getUserById());
-	// }, []);
+	useEffect(() => {
+		dispatch(getUserById());
+	}, []);
 	return (
 		<Router history={history}>
 			<div className="App">

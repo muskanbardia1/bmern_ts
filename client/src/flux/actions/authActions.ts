@@ -16,7 +16,7 @@ import {
 import { IUser, IConfigHeaders } from '../../types/interfaces';
 
 // Check token & load user
-export const getUserById = (id?:string) => (dispatch: Dispatch<IAction>, getState: Function) => {
+export const getUserById = (_id?:string) => (dispatch: Dispatch<IAction>, getState: Function) => {
   // User loading
   dispatch({ type: USER_LOADING });
   
@@ -25,7 +25,7 @@ export const getUserById = (id?:string) => (dispatch: Dispatch<IAction>, getStat
     method: "get",
     url: "/getUser",
     params: {
-      id:id || ""
+      _id:_id || ""
     },
     ...tokenConfig(getState)
 

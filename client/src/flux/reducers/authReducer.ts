@@ -23,7 +23,7 @@ const initialState: IUserRedux = {
   isAuthenticated: false,
   isLoading: false,
   user: null,
-  token: null
+  token: localStorage.getItem('token'), 
 };
 
 const userReducer = (state = initialState, action: IAction): IUserRedux => {

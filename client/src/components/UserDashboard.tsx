@@ -31,6 +31,7 @@ import { Link, useLocation } from "react-router-dom";
 // import { store } from "../store/store";
 // import { isLogged } from "../redux/actions";
 import { getUserById, logout, editUser } from "../flux/actions/authActions";
+import { getUserAdmById,editAdmUser } from "../flux/actions/userListActions";
 import { clearErrors } from "../flux/actions/errorActions";
 import { IUserDashboard, IRootState, IUser } from "../types/interfaces";
 
@@ -168,6 +169,10 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	logout,
 	editUser,
 	getUserById,
+	users,
+	getUserAdmById,
+	editAdmUser,
+	history
 }) => {
 	// const signUpList = useSelector((state) => state.signUpList);
 	// const loggedProfile = useSelector((state) => state.loggedProfile);
@@ -175,14 +180,13 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const [open, setOpen] = useState(false);
 	const [isDisabled, setToggle] = useState(true);
 	const [data, setData] = useState<IUser>({
-		_id:"",
+		_id: "",
 		firstName: "",
 		lastName: "",
 		email: "",
 		Address: "",
 		mobileNumber: "",
-		userImage: ""
-		
+		userImage: "",
 	});
 
 	const setFormField = (key: string, value: any) => {
@@ -213,23 +217,63 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	};
 
 	const searchQuery = new URLSearchParams(useLocation().search).get("_id");
-	
+
+	const adminUser = users.find((e) => e._id === searchQuery);
 
 	useEffect(() => {
-		setToggle(true)
+		setToggle(true);
 		setData({
-			_id: auth?.user?._id ?? "",
-			firstName: auth?.user?.firstName ?? "",
-			lastName: auth?.user?.lastName ?? "",
-			email: auth?.user?.email ?? "",
-			Address: auth?.user?.Address ?? "",
-			mobileNumber: auth?.user?.mobileNumber ?? "",
-			userImage: auth?.user?.userImage ?? "",
+			_id:
+				auth?.user?.userType === "USER"
+					? auth?.user?._id ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?._id ?? ""
+					: "",
+			firstName:
+				auth?.user?.userType === "USER"
+					? auth?.user?.firstName ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.firstName ?? ""
+					: "",
+			lastName:
+				auth?.user?.userType === "USER"
+					? auth?.user?.lastName ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.lastName ?? ""
+					: "",
+			email:
+				auth?.user?.userType === "USER"
+					? auth?.user?.email ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.email ?? ""
+					: "",
+			Address:
+				auth?.user?.userType === "USER"
+					? auth?.user?.Address ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.Address ?? ""
+					: "",
+			mobileNumber:
+				auth?.user?.userType === "USER"
+					? auth?.user?.mobileNumber ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.mobileNumber ?? ""
+					: "",
+			userImage:
+				auth?.user?.userType === "USER"
+					? auth?.user?.userImage ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.userImage ?? ""
+					: "",
 		});
-	}, [auth.user]);
+	}, [auth.user, adminUser]);
 
 	useEffect(() => {
-		if (searchQuery) getUserById(searchQuery);
+		if (auth?.user?.userType && auth.user.userType === "USER") {
+			if (searchQuery) getUserById(searchQuery);
+		} else {
+			if (searchQuery) getUserAdmById(searchQuery);
+		}
 	}, [searchQuery]);
 
 	const handleDrawerOpen = () => {
@@ -241,13 +285,48 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 	const cancelUpdate = () => {
 		if (!isDisabled) {
 			setData({
-				_id: auth?.user?._id ?? "",
-				firstName: auth?.user?.firstName ?? "",
-				lastName: auth?.user?.lastName ?? "",
-				email: auth?.user?.email ?? "",
-				Address: auth?.user?.Address ?? "",
-				mobileNumber: auth?.user?.mobileNumber ?? "",
-				userImage: auth?.user?.userImage ?? "",
+				_id:
+					auth?.user?.userType === "USER"
+						? auth?.user?._id ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?._id ?? ""
+						: "",
+				firstName:
+					auth?.user?.userType === "USER"
+						? auth?.user?.firstName ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.firstName ?? ""
+						: "",
+				lastName:
+					auth?.user?.userType === "USER"
+						? auth?.user?.lastName ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.lastName ?? ""
+						: "",
+				email:
+					auth?.user?.userType === "USER"
+						? auth?.user?.email ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.email ?? ""
+						: "",
+				Address:
+					auth?.user?.userType === "USER"
+						? auth?.user?.Address ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.Address ?? ""
+						: "",
+				mobileNumber:
+					auth?.user?.userType === "USER"
+						? auth?.user?.mobileNumber ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.mobileNumber ?? ""
+						: "",
+				userImage:
+					auth?.user?.userType === "USER"
+						? auth?.user?.userImage ?? ""
+						: auth?.user?.userType === "ADMIN"
+						? adminUser?.userImage ?? ""
+						: "",
 			});
 		}
 		setToggle(!isDisabled);
@@ -255,7 +334,12 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 
 	const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		editUser(data);
+		if(auth.user?.userType==="USER"){
+			editUser(data);
+		} else {
+			editAdmUser(data)
+			history.replace("/adminDashboard");
+		}
 	};
 	// const signOut = () => {
 	//   store.dispatch(isLogged(false));
@@ -535,6 +619,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 const mapStateToProps = (state: IRootState) => ({
 	auth: state.auth,
 	error: state.error,
+	users: state.userList.users,
 });
 
 export default connect(mapStateToProps, {
@@ -542,4 +627,6 @@ export default connect(mapStateToProps, {
 	logout,
 	editUser,
 	getUserById,
+	getUserAdmById,
+	editAdmUser
 })(UserDashboard);

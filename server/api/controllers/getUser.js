@@ -6,15 +6,15 @@ const _getUser = async (req, res) => {
     // let { page = 1, limit = 20, sort = null } = req.body;
 
     let queryObj = {};
-    if (req.userType == "USER") {
-      queryObj._id = req.id;
-      queryObj.isActive = true;
-    } else {
-      if (!req.query._id || !req.query._id?.trim()) {
-        return Services._validationError(res,"Please provide the id");
-      }
-      queryObj._id = req.query._id;
-    }
+    if (req.userType == "USER" || !req.query._id) {
+			queryObj._id = req.id;
+			queryObj.isActive = true;
+		} else {
+			if (!req.query._id || !req.query._id?.trim()) {
+				return Services._validationError(res, "Please provide the id");
+			}
+			queryObj._id = req.query._id;
+		}
 
     let user = await UserModel.findOne(queryObj )
       .select(
