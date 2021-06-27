@@ -70,8 +70,10 @@ const SignUp: React.FC<IRegisterModal> = ({
 		confirmPassword: "",
 		Address: "",
 		mobileNumber: "",
-		userImage: "",
+		// userImage: "",
 	});
+
+	const[userImage,setUserImage]=useState("")
 	// const [isValidated, setIsValidated] = useState(false);
 
 	const setFormField = (key: string, value: any) => {
@@ -90,11 +92,12 @@ const SignUp: React.FC<IRegisterModal> = ({
 		reader.onload = function (dataa: any) {
 			let dataURL = dataa.target.result;
 			dataURL = dataURL.replace(";base64", `;name=${file.name};base64`);
+			setUserImage(dataURL);
 
-			setData({
-				...data,
-				userImage: dataURL,
-			});
+			// setData({
+			// 	...data,
+			// 	userImage: dataURL,
+			// });
 		};
 
 		reader.readAsDataURL(file);
@@ -109,8 +112,8 @@ const SignUp: React.FC<IRegisterModal> = ({
 		// Create user object
 
 		// Attempt to login
-		// const formadata={...data,image:selectedFile}
-		register(data);
+		const formadata={...data,userImage}
+		register(formadata);
 	};
 
 	if (isAuthenticated && userId) {
@@ -240,11 +243,11 @@ const SignUp: React.FC<IRegisterModal> = ({
 								onChange={handleUploadClick}
 							/>
 							<CardActionArea>
-								{data.userImage && (
+								{userImage && (
 									<img
 										width="100%"
 										className={classes.media}
-										src={data.userImage}
+										src={userImage}
 										alt=""
 									/>
 								)}

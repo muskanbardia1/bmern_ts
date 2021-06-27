@@ -186,8 +186,9 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 		email: "",
 		Address: "",
 		mobileNumber: "",
-		userImage: "",
+		// userImage: "",
 	});
+	const [userImage, setUserImage] = useState("");
 
 	const setFormField = (key: string, value: any) => {
 		setData({
@@ -206,11 +207,12 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 		reader.onload = function (data: any) {
 			let dataURL = data.target.result;
 			dataURL = dataURL.replace(";base64", `;name=${file.name};base64`);
+			setUserImage(dataURL);
 
-			setData({
-				...data,
-				userImage: dataURL,
-			});
+			// setData({
+			// 	...data,
+			// 	userImage: dataURL,
+			// });
 		};
 
 		reader.readAsDataURL(file);
@@ -259,13 +261,20 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 					: auth?.user?.userType === "ADMIN"
 					? adminUser?.mobileNumber ?? ""
 					: "",
-			userImage:
-				auth?.user?.userType === "USER"
-					? auth?.user?.userImage ?? ""
-					: auth?.user?.userType === "ADMIN"
-					? adminUser?.userImage ?? ""
-					: "",
+			// userImage:
+			// 	auth?.user?.userType === "USER"
+			// 		? auth?.user?.userImage ?? ""
+			// 		: auth?.user?.userType === "ADMIN"
+			// 		? adminUser?.userImage ?? ""
+			// 		: "",
 		});
+		setUserImage(
+			auth?.user?.userType === "USER"
+				? auth?.user?.userImage ?? ""
+				: auth?.user?.userType === "ADMIN"
+				? adminUser?.userImage ?? ""
+				: ""
+		);
 	}, [auth.user, adminUser]);
 
 	useEffect(() => {
@@ -321,23 +330,33 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 						: auth?.user?.userType === "ADMIN"
 						? adminUser?.mobileNumber ?? ""
 						: "",
-				userImage:
-					auth?.user?.userType === "USER"
-						? auth?.user?.userImage ?? ""
-						: auth?.user?.userType === "ADMIN"
-						? adminUser?.userImage ?? ""
-						: "",
+				// userImage:
+				// 	auth?.user?.userType === "USER"
+				// 		? auth?.user?.userImage ?? ""
+				// 		: auth?.user?.userType === "ADMIN"
+				// 		? adminUser?.userImage ?? ""
+				// 		: "",
 			});
+
+			setUserImage(
+				auth?.user?.userType === "USER"
+					? auth?.user?.userImage ?? ""
+					: auth?.user?.userType === "ADMIN"
+					? adminUser?.userImage ?? ""
+					: ""
+			);
 		}
 		setToggle(!isDisabled);
 	};
 
 	const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const formadata = { ...data, userImage };
+
 		if(auth.user?.userType==="USER"){
-			editUser(data);
+			editUser(formadata);
 		} else {
-			editAdmUser(data)
+			editAdmUser(formadata)
 			history.replace("/adminDashboard");
 		}
 	};
@@ -445,11 +464,11 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 									/>
 								)}
 								<CardActionArea>
-									{data.userImage && (
+									{userImage && (
 										<img
 											width="40%"
 											className={classes.media}
-											src={data.userImage}
+											src={userImage}
 											alt=""
 										/>
 									)}
