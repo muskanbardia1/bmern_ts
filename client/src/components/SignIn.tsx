@@ -12,6 +12,8 @@ import { clearErrors } from "../flux/actions/errorActions";
 import { ILoginModal, IRootState } from "../types/interfaces";
 import { UserType } from "../types/enum";
 import { Link, Redirect } from "react-router-dom";
+import { validations } from "../utils";
+
 
 const useStyles = makeStyles((theme: Theme) => ({
 	paper: {

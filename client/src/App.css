@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.btn-choose {
+  margin-right: 10px !important;
+}
+.upload-message {
+  font-weight: bold;
+  color: #63A84E;
+}
+.upload-message.error{
+  color: #DA4148;
+}
+.btn-upload {
+  position: absolute !important;
+  right: 10px;
+}
