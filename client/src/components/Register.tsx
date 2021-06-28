@@ -127,6 +127,7 @@ const SignUp: React.FC<IRegisterModal> = ({
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
     const formErrors: { [key: string]: any } = {
       firstName: { isValid: true, errorMsg: "First Name can not be blank" },
       lastName: { isValid: true, errorMsg: "Last Name can not be blank" },
@@ -170,6 +171,7 @@ const SignUp: React.FC<IRegisterModal> = ({
         formErrors.isFormValid = false;
         setFormError(formErrors);
       } else {
+        
         register(formadata);
       }
     }
