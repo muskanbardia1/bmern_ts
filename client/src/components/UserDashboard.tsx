@@ -190,17 +190,17 @@ const UserDashboard: React.FC<IUserDashboard> = ({
     // userImage: "",
   });
   const [userImage, setUserImage] = useState("");
-   const [formError, setFormError] = useState<{ [key: string]: any }>({
-     firstName: { isValid: true, errorMsg: "" },
-     lastName: { isValid: true, errorMsg: "" },
-     email: { isValid: true, errorMsg: "" },
-     password: { isValid: true, errorMsg: "" },
-     confirmPassword: { isValid: true, errorMsg: "" },
-     Address: { isValid: true, errorMsg: "" },
-     mobileNumber: { isValid: true, errorMsg: "" },
-     userImage: { isValid: true, errorMsg: "" },
-     isFormValid: true,
-   });
+  const [formError, setFormError] = useState<{ [key: string]: any }>({
+    firstName: { isValid: true, errorMsg: "" },
+    lastName: { isValid: true, errorMsg: "" },
+    email: { isValid: true, errorMsg: "" },
+    password: { isValid: true, errorMsg: "" },
+    confirmPassword: { isValid: true, errorMsg: "" },
+    Address: { isValid: true, errorMsg: "" },
+    mobileNumber: { isValid: true, errorMsg: "" },
+    userImage: { isValid: true, errorMsg: "" },
+    isFormValid: true,
+  });
 
   const setFormField = (key: string, value: any) => {
     setData({
@@ -248,37 +248,43 @@ const UserDashboard: React.FC<IUserDashboard> = ({
     setToggle(true);
     setData({
       _id:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?._id ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?._id ?? ""
           : "",
       firstName:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.firstName ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.firstName ?? ""
           : "",
       lastName:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.lastName ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.lastName ?? ""
           : "",
       email:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.email ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.email ?? ""
           : "",
       Address:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.Address ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.Address ?? ""
           : "",
       mobileNumber:
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.mobileNumber ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.mobileNumber ?? ""
@@ -291,7 +297,8 @@ const UserDashboard: React.FC<IUserDashboard> = ({
       // 		: "",
     });
     setUserImage(
-      auth?.user?.userType === "USER"
+      auth?.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
         ? auth?.user?.userImage ?? ""
         : auth?.user?.userType === "ADMIN"
         ? adminUser?.userImage ?? ""
@@ -300,7 +307,11 @@ const UserDashboard: React.FC<IUserDashboard> = ({
   }, [auth.user, adminUser]);
 
   useEffect(() => {
-    if (auth?.user?.userType && auth.user.userType === "USER") {
+    if (
+      auth?.user?.userType &&
+      (auth.user.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery))
+    ) {
       if (searchQuery) getUserById(searchQuery);
     } else {
       if (searchQuery) getUserAdmById(searchQuery);
@@ -317,37 +328,43 @@ const UserDashboard: React.FC<IUserDashboard> = ({
     if (!isDisabled) {
       setData({
         _id:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?._id ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?._id ?? ""
             : "",
         firstName:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?.firstName ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?.firstName ?? ""
             : "",
         lastName:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?.lastName ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?.lastName ?? ""
             : "",
         email:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?.email ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?.email ?? ""
             : "",
         Address:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?.Address ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?.Address ?? ""
             : "",
         mobileNumber:
-          auth?.user?.userType === "USER"
+          auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
             ? auth?.user?.mobileNumber ?? ""
             : auth?.user?.userType === "ADMIN"
             ? adminUser?.mobileNumber ?? ""
@@ -361,7 +378,8 @@ const UserDashboard: React.FC<IUserDashboard> = ({
       });
 
       setUserImage(
-        auth?.user?.userType === "USER"
+        auth?.user?.userType === "USER" ||
+          (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
           ? auth?.user?.userImage ?? ""
           : auth?.user?.userType === "ADMIN"
           ? adminUser?.userImage ?? ""
@@ -401,26 +419,19 @@ const UserDashboard: React.FC<IUserDashboard> = ({
         formErrors.isFormValid && formErrors[key].isValid;
     }
 
-
     if (!formErrors.isFormValid) {
       setFormError(formErrors);
     } else {
-      if (data.password !== data.confirmPassword) {
-        formErrors.confirmPassword.isValid = false;
-
-        formErrors.isFormValid = false;
-        setFormError(formErrors);
+      if (
+        auth.user?.userType === "USER" ||
+        (auth.user?.userType === "ADMIN" && auth.user?._id === searchQuery)
+      ) {
+        editUser(formadata);
       } else {
-        if (auth.user?.userType === "USER") {
-          editUser(formadata);
-        } else {
-          editAdmUser(formadata);
-          history.replace("/adminDashboard");
-        }
+        editAdmUser(formadata);
+        history.replace("/adminDashboard");
       }
     }
-
-
   };
   // const signOut = () => {
   //   store.dispatch(isLogged(false));
@@ -528,13 +539,13 @@ const UserDashboard: React.FC<IUserDashboard> = ({
                     type="file"
                     onChange={handleUploadClick}
                   />
-              //     <Button
-              //   className="btn-choose"
-              //   variant="outlined"
-              //   component="span"
-              // >
-              //   Choose Image
-              // </Button>
+                  //     <Button
+                  //   className="btn-choose"
+                  //   variant="outlined"
+                  //   component="span"
+                  // >
+                  //   Choose Image
+                  // </Button>
                 )}
                 <CardActionArea>
                   {userImage && (
