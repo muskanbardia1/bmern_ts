@@ -66,6 +66,7 @@ const SignIn: React.FC<ILoginModal> = ({
     const formErrors: { [key: string]: any } = {
       email: { isValid: true, errorMsg: "Enter the valid email" },
       password: { isValid: true, errorMsg: "Password can not be blank" },
+      isFormValid: true,
     };
 
     for (let key in data) {
@@ -112,10 +113,8 @@ const SignIn: React.FC<ILoginModal> = ({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setFormField("email", e.target.value)
             }
-            error={!formError.lastName.isValid}
-            helperText={
-              !formError.lastName.isValid && formError.lastName.errorMsg
-            }
+            error={!formError.email.isValid}
+            helperText={!formError.email.isValid && formError.email.errorMsg}
           />
           <TextField
             variant="outlined"

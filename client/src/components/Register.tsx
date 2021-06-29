@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import { register } from "../flux/actions/authActions";
 import { clearErrors } from "../flux/actions/errorActions";
 import { IRegisterModal, IRootState, IUser } from "../types/interfaces";
-import { validations } from "../utils";
+import { validations,isUserImage } from "../utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   media: {
@@ -100,16 +100,22 @@ const SignUp: React.FC<IRegisterModal> = ({
       return;
     }
     const file = e.target.files[0];
-    const isValidFile = validations.userImage(file);
+    const isValidFile = isUserImage(file);
     if (!isValidFile) {
       setFormError({
         ...formError,
         userImage: { isValid: false, errorMsg: "Enter valid image" },
         isFormValid: false,
-      });
+      })
 
       return;
     }
+    setFormError({
+      ...formError,
+      userImage: { isValid: true, errorMsg: "Enter valid image" },
+      isFormValid: true,
+    });
+
     const reader = new FileReader();
 
     reader.onload = function (dataa: any) {
@@ -171,7 +177,7 @@ const SignUp: React.FC<IRegisterModal> = ({
         formErrors.isFormValid = false;
         setFormError(formErrors);
       } else {
-        
+
         register(formadata);
       }
     }

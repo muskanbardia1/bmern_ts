@@ -34,7 +34,7 @@ import { getUserById, logout, editUser } from "../flux/actions/authActions";
 import { getUserAdmById, editAdmUser } from "../flux/actions/userListActions";
 import { clearErrors } from "../flux/actions/errorActions";
 import { IUserDashboard, IRootState, IUser } from "../types/interfaces";
-import { validations } from "../utils";
+import { validations, isUserImage } from "../utils";
 
 const drawerWidth = 240;
 
@@ -214,7 +214,7 @@ const UserDashboard: React.FC<IUserDashboard> = ({
       return;
     }
     const file = e.target.files[0];
-    const isValidFile = validations.userImage(file);
+    const isValidFile = isUserImage(file);
     if (!isValidFile) {
       setFormError({
         ...formError,
@@ -224,6 +224,11 @@ const UserDashboard: React.FC<IUserDashboard> = ({
 
       return;
     }
+    setFormError({
+      ...formError,
+      userImage: { isValid: true, errorMsg: "Enter valid image" },
+      isFormValid: true,
+    });
     const reader = new FileReader();
 
     reader.onload = function (data: any) {
@@ -411,12 +416,14 @@ const UserDashboard: React.FC<IUserDashboard> = ({
     const formadata = { ...data, userImage };
 
     for (let key in formadata) {
-      formErrors[key].isValid = validations[key]?.(
-        formadata[key as keyof IUser]
-      );
+      if (formErrors[key]) {
+        formErrors[key].isValid = validations[key]?.(
+          formadata[key as keyof IUser]
+        );
 
-      formErrors.isFormValid =
-        formErrors.isFormValid && formErrors[key].isValid;
+        formErrors.isFormValid =
+          formErrors.isFormValid && formErrors[key].isValid;
+      }
     }
 
     if (!formErrors.isFormValid) {
