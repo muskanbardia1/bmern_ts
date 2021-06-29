@@ -52,7 +52,7 @@ export interface ILogoutProps {
 
 export interface IError {
 	id: E_ERROR;
-	msg: IMsg;
+  msg: IMsg;
 }
 
 export interface IAuthReduxProps {
@@ -64,6 +64,13 @@ export interface IConfigHeaders {
 	headers: {
 		[index: string]: string;
 	};
+}
+
+export interface IAlertProps {
+  error: IErrorsRedux;
+  clearErrors(): void;
+
+
 }
 
 // NAVBAR
@@ -124,7 +131,7 @@ export interface IReturnErrors {
 }
 
 export interface IErrorsRedux {
-	msg: string | any | null;
+	msg: string | any ;
 
 	status: string | null;
 	id: any | null;
