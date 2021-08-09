@@ -29,7 +29,8 @@ import Button from "@material-ui/core/Button";
 // import { store } from "../store/store";
 // import { loggedUser, isLogged, deleteUser } from "../redux/actions";
 // import { useHistory } from "react-router-dom";
-
+import Charts from "./Chart";
+import PieChart from "./PieChart";
 import SearchBar from "material-ui-search-bar";
 import { connect } from "react-redux";
 import { logout } from "../flux/actions/authActions";
@@ -37,8 +38,33 @@ import { clearErrors } from "../flux/actions/errorActions";
 import { getUsers, deleteUser } from "../flux/actions/userListActions";
 import { IUserListDashBoard, IRootState, IUser } from "../types/interfaces";
 // import ViewAdmin from "./ViewAdmin";
+import { useTheme } from "@material-ui/core";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer,
+} from "recharts";
 
 const drawerWidth = 240;
+
+function createData(time: any, amount: any) {
+  return { time, amount };
+}
+
+const data = [
+  createData("00:00", 0),
+  createData("03:00", 300),
+  createData("06:00", 600),
+  createData("09:00", 800),
+  createData("12:00", 1500),
+  createData("15:00", 2000),
+  createData("18:00", 2400),
+  createData("21:00", 2400),
+  createData("24:00", undefined),
+];
 
 const useStyles = makeStyles((theme: Theme) => ({
   seeMore: {
@@ -123,6 +149,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   fixedHeight: {
     height: 240,
   },
+  fixedHeight1: {
+    height: 540,
+  },
 }));
 
 const UserList: React.FC<IUserListDashBoard> = ({
@@ -138,6 +167,7 @@ const UserList: React.FC<IUserListDashBoard> = ({
   const classes = useStyles();
   const [searched, setSearched] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [graph, setGraph] = React.useState(false);
   // const { users } = useSelector((state) => state);
   const [data, setdata] = React.useState<IUser[]>([]);
   // const [selectedUser, setselectedUser] = React.useState();
@@ -150,6 +180,10 @@ const UserList: React.FC<IUserListDashBoard> = ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaper1 = clsx(classes.paper, classes.fixedHeight1);
+  const theme = useTheme();
 
   useEffect(() => {
     getUsers();
@@ -179,6 +213,10 @@ const UserList: React.FC<IUserListDashBoard> = ({
     setSearched("");
     requestSearch("searched");
     setdata(users);
+  };
+
+  const graphView = () => {
+    setGraph(!graph);
   };
 
   // const signOut = () => {
@@ -252,6 +290,12 @@ const UserList: React.FC<IUserListDashBoard> = ({
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
+          <Button color="primary" onClick={graphView}>
+            {
+              !graph ?  "Graphical View" : "Tabular View"
+            }
+           
+          </Button>
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}></Grid>
@@ -262,7 +306,9 @@ const UserList: React.FC<IUserListDashBoard> = ({
             {/* Recent Orders */}
             <Grid item xs={12}>
               (
-              <Paper className={classes.paper}>
+                {
+                  !graph &&
+                  <Paper className={classes.paper}>
                 <SearchBar
                   value={searched}
                   onChange={(searchVal) => requestSearch(searchVal)}
@@ -324,8 +370,24 @@ const UserList: React.FC<IUserListDashBoard> = ({
                   <div className={classes.seeMore}></div>
                 </React.Fragment>
               </Paper>
+                }
+              
               )
             </Grid>
+            {graph && (
+              <React.Fragment>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Paper className={fixedHeightPaper1}>
+                    <Charts />
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Paper className={fixedHeightPaper1}>
+                    <PieChart />
+                  </Paper>
+                </Grid>
+              </React.Fragment>
+            )}
           </Grid>
         </Container>
       </main>

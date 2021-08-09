@@ -13,6 +13,26 @@
   }
 }
 
+.label {
+  margin: 100px 0px 70px 10px;
+  position: absolute;
+}
+
+.box {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+}
+
+.red {
+  background-color: rgb(250, 124, 74);
+}
+
+.blue {
+  background-color: rgb(111, 196, 236);
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -42,10 +62,10 @@
 }
 .upload-message {
   font-weight: bold;
-  color: #63A84E;
+  color: #63a84e;
 }
-.upload-message.error{
-  color: #DA4148;
+.upload-message.error {
+  color: #da4148;
 }
 .btn-upload {
   position: absolute !important;
